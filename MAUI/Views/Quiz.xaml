@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.Views.Quiz"
+             xmlns:vm="clr-namespace:MAUI.ViewModels"
+             Title="Quiz">
+
+    <ContentPage.BindingContext>
+        <vm:clsQuizVM></vm:clsQuizVM>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding ShowContent}">
+            <Label 
+                Text="{Binding Aciertos, StringFormat='Aciertos: {0}'}"
+                FontSize="18"
+                TextColor="Green"
+                Margin="20,20,0,10" />
+            <Label 
+                Text="{Binding Errores, StringFormat='Errores: {0}'}"
+                FontSize="18"
+                TextColor="Red"
+                Margin="20,0,0,0" />
+        </VerticalStackLayout>
+
+        <Frame 
+           Grid.Column="1"
+           Grid.Row="1"
+           IsVisible="{Binding ShowContent}"
+           HeightRequest="128"
+           WidthRequest="128"
+           CornerRadius="64"
+           HorizontalOptions="Center"
+           IsClippedToBounds="True"
+           Padding="0"
+           BorderColor="Gray"
+           Margin="0,0,0,0">
+
+            <Image
+                Aspect="Fill"
+                Source="{Binding Foto}"
+                HeightRequest="128"
+                WidthRequest="128"
+                />
+        </Frame>
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0, 20, 0, 0"
+            FontSize="24"
+            IsVisible="{Binding ShowContent}"
+            HorizontalOptions="Center"
+            Text="¿Quién es el de la imagen?"/>
+
+        <ListView 
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0, 80, 0, 0"
+            IsVisible="{Binding ShowContent}"
+            ItemsSource="{Binding Candidatos}"
+            SelectedItem="{Binding CandidatoSeleccionado}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame Padding="10"
+                           Margin="5"
+                           BorderColor="#E0E0E0"
+                           BackgroundColor="White"
+                           InputTransparent="False">
+                            <HorizontalStackLayout Spacing="10">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Nombre}"
+                               TextColor="#212121"
+                               FontSize="Medium"
+                               FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label 
+            Text="{Binding Rondas, StringFormat='Ronda Actual: {0}'}"
+            Grid.Row="0"
+            Grid.Column="2"
+            IsVisible="{Binding ShowContent}"
+            TextColor="Blue"
+            FontSize="18"
+            HorizontalOptions="End"
+            Margin="20" />
+
+        <Label
+            Text="{Binding Error}"
+            IsVisible="{Binding ShowError}"
+            Grid.Column="1"
+            Grid.Row="1"
+            Margin="50"
+            HorizontalOptions="Center"
+            TextColor="Red"
+            FontSize="26" />
+    </Grid>
+</ContentPage>

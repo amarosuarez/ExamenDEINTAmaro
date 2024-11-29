@@ -1,0 +1,97 @@
+ENT
+-----------
+clsCandidato:
+	- id: int {get; set;}
+	- nombre: String {get; set;}
+
+	public clsCandidato(int id, string nombre) {}
+
+DAL
+-----------
+clsListadoCandidatoDAL:
+	- private static List<clsCandidato> candidatos
+
+	private static List<clsCandidato> obtenerTodosLosCandidatosDAL() {}
+
+	public static List<clsCandidato> obtenerCandidatosRondaDAL() {
+		// Devuelve 4 candidatos aleatorios
+	}
+	
+BL
+----------
+clsListadoCandidatoBL:
+	public static List<clsCandidato> obtenerCandidatosRondaBL() {}
+
+UI
+---------
+	VM:
+		clsQuizVM : INotifyPropertyChange
+			- candidatos : List<clsCandidato> {get;} // No hace falta que sea Observable ya que no se cambia nada en ella
+			- candidatoRespuesta : clsCandidato {get;}
+			- candidatoSeleccionado : clsCandidato {get; set { compruebaCandidato() }}
+			- foto : String {get;}
+			- aciertos : int {get;}
+			- errores : int {get;}
+			- rondas : int {get;} = 1
+			- candidatosJugados : List<clsCandidato> {get;} = new List<clsCandidato>() // Aqui guarda los candidatos ya jugados, no tiene propiedad publica
+			- error : String {get;}
+			- showError : bool {get;}
+			- showContent : bool {get;}
+
+			clsQuizVM() {
+				try {
+					juego()
+				} catch() {
+					Notify("Error")
+					Notify("ShowError")
+				}
+			}
+
+			private void juego() {
+				candidatos = clsListadoCandidatoBL.obtenerCandidatosRondaBL();
+				Notify("Candidatos")
+				seleccionarCandidato()
+			}
+
+			private void seleccionarCandidato() {
+				// Random...
+				candidatoRespuesta = clsListadoCandidatoBL.obtenerCandidatoPorId(random)
+				candidatosJugados.Add(candidatoRespuesta)
+				foto = "f" + candidatoRespuesta.Id + "f.jfif"
+				Notify(foto)
+
+				// Se envuelve en un do while para que no seleccione uno ya jugado
+			}
+
+			private void compruebaCandidato() {
+				if (candidatoSeleccionado.Id == candidatoRespuesta.Id) {
+					aciertos++;
+				} else {
+					errores++;
+				}
+
+				rondas++;
+
+				// Muestra un toast
+
+				if (rondas == 5)
+					 mensaje // Depende si ha ganado o perdido
+					displayAlert
+					// Sí, ejecuta volverAJugar
+				else
+					juego()
+			}
+
+			private void volverAJugar() {
+				candidatosJugados.clear()
+				aciertos = 0;
+				errores = 0;
+				rondas = 0;
+				Notifys
+				juego()
+			}
+
+
+			
+
+		
